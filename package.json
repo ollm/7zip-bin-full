@@ -2,6 +2,9 @@
   "name": "7zip-bin",
   "description": "7-Zip precompiled binaries",
   "version": "5.2.0",
+  "scripts": {
+    "update-7z": "node update-7z.js"
+  },
   "files": [
     "*.js",
     "7x.sh",
@@ -16,5 +19,8 @@
     "7zip",
     "7z",
     "7za"
-  ]
+  ],
+  "dependencies": {
+    "node-7z": "^3.0.0"
+  }
 }
