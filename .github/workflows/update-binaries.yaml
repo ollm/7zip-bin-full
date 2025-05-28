@@ -35,7 +35,9 @@ jobs:
 
       - name: Get 7zip version
         id: version
-        run: echo "version=$(cat 7z-version.txt)" >> $GITHUB_OUTPUT; rm 7z-version.txt
+        run: |
+          echo "version=$(cat 7z-version.txt)" >> $GITHUB_OUTPUT
+          rm 7z-version.txt
 
       - name: Bump version with pnpm
         run: pnpm version ${{ steps.version.outputs.version }}
