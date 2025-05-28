@@ -7,7 +7,7 @@ let dll = false;
 
 if(!fs.existsSync('temporary-7z')) // Temporarily copy the binary to the root of the project folder to avoid errors during extraction
 {
-	const path7z = require('./index.js').path7z;
+	const path7z = require('./index.js').path7z || p.join(__dirname, 'linux', process.arch, '7zz');
 	fs.copyFileSync(path7z, 'temporary-7z');
 
 	if(/7z\.exe$/.test(path7z)) // Only for Windows
@@ -27,6 +27,10 @@ const bin7zDll = dll ? p.join(__dirname, '7z.dll') : false; // Only for Windows
 
 const forceVersion = process.env.DOWNLOAD_7Z_VERSION || ''; // You can set this to force a version, example 24.09
 const publish = process.argv.includes('--publish');
+const force = process.argv.includes('--force');
+
+const packageJson = require('./package.json');
+const versionParts = packageJson.version.split('.').map(Number);
 
 const binaries = [
 	// Windows x64
@@ -176,7 +180,22 @@ const errors = [];
 	const realese = await findLatestRelease(forceVersion);
 
 	if(publish)
+	{
 		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
+		console.log(''); // Add an empty line for better readability
+	}
+
+	const realeseVersionParts = realese.tag_name.split('.').map(Number);
+
+	// Abort if the release version is the same as the current version
+	if(versionParts[0] === realeseVersionParts[0] && versionParts[1] === realeseVersionParts[1] && !force)
+	{
+		console.log(`${styleText(['bold', 'greenBright'], 'No updates available.')}`);
+		console.log(`${styleText(['bold', 'cyanBright'], 'Current 7z binaries version:')} ${styleText(['bold', 'magentaBright'], realese.tag_name)}`);
+		if(publish) console.log('');
+
+		return;
+	}
 
 	console.log(`${styleText(['bold', 'cyanBright'], 'Updating 7z binaries to:')} ${styleText(['bold', 'magentaBright'], realese.tag_name)}`);
 	console.log('');
@@ -195,6 +214,7 @@ const errors = [];
 			}
 		}
 
+		if(!fs.existsSync(binary.folder)) fs.mkdirSync(binary.folder, {recursive: true}); // Create the folder if it doesn't exist
 		const downloadFile = p.join(binary.folder, binary.file);
 
 		if(asset)
@@ -261,6 +281,8 @@ const errors = [];
 		throw new Error(`${styleText(['bold', 'redBright'], 'Errors during download or extraction:')} \n${errors.join('\n')}`);
 	else
 		console.log(`${styleText(['bold', 'greenBright'], 'All binaries updated successfully!')}`);
+
+	if(publish) console.log('');
 
 })();
 
