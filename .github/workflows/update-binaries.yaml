@@ -54,10 +54,9 @@ jobs:
       - name: Bump version with pnpm
         run: pnpm version ${{ steps.packageVersion.outputs.version }} --no-git-tag-version
 
-      - name: Commit changes
+      - name: Git add files
         run: |
           git add -A
-          git commit -m "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}" || echo "No changes to commit"
 
       - name: Create Pull Request with changesets/action
         uses: changesets/action@v1
