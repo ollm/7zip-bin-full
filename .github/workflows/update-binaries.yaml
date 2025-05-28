@@ -53,6 +53,8 @@ jobs:
       - name: Create Pull Request with changesets/action
         uses: changesets/action@v1
         with:
+          version: changeset version
+          publish: changeset tag
           title: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
           commit: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
         env:
