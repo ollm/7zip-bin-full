@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 
 const packageVersion = fs.readFileSync('./package-version.txt', 'utf8');
-fs.removeSync('./package-version.txt');
+fs.unlinkSync('./package-version.txt');
 
 const readme = fs.readFileSync('./README.md', 'utf8');
 fs.writeFileSync('./README.md', readme.replace(/## (?:\d+\.\d+\.\d+)/, '## '+packageVersion), 'utf8');
