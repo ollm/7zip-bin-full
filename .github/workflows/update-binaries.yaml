@@ -60,5 +60,6 @@ jobs:
           version: changeset version
           title: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
           commit: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
+          createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
