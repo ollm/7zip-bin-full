@@ -178,14 +178,14 @@ const errors = [];
 (async function() {
 
 	const realese = await findLatestRelease(forceVersion);
+	const realeseVersionParts = realese.tag_name.split('.').map(Number);
 
 	if(publish)
 	{
 		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
+		fs.writeFileSync('package-version.txt', realeseVersionParts[0]+'.'+realeseVersionParts[1]+'.'+(realeseVersionParts[2] ?? 0)); // Save the new package version to a file, in format 24.9.0
 		console.log(''); // Add an empty line for better readability
 	}
-
-	const realeseVersionParts = realese.tag_name.split('.').map(Number);
 
 	// Abort if the release version is the same as the current version
 	if(versionParts[0] === realeseVersionParts[0] && versionParts[1] === realeseVersionParts[1] && !force)
