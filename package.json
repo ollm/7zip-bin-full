@@ -20,7 +20,7 @@
     "7z",
     "7za"
   ],
-  "dependencies": {
+  "devDependencies": {
     "node-7z": "^3.0.0"
   }
 }
