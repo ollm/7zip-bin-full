@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: '0 6 * * *' # Daily
 
+permissions:
+  contents: write # to create release (changesets/action)
+  pull-requests: write # to create pull request (changesets/action)
+
 jobs:
   update:
     runs-on: ubuntu-latest

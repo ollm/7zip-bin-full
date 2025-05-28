@@ -182,7 +182,6 @@ const errors = [];
 
 	if(publish)
 	{
-		fs.writeFileSync('.changeset/update-7zip-'+realese.tag_name+'.md', 'Upgrade 7zip binaries to v'+realese.tag_name);
 		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
 		fs.writeFileSync('package-version.txt', realeseVersionParts[0]+'.'+realeseVersionParts[1]+'.'+(realeseVersionParts[2] ?? 0)); // Save the new package version to a file, in format 24.9.0
 		console.log(''); // Add an empty line for better readability
