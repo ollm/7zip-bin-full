@@ -195,9 +195,11 @@ const errors = [];
 
 	if(publish)
 	{
-		fs.writeFileSync('.changeset/update-7zip-'+realese.tag_name+'.md', '---\n"7zip-bin": '+(versionParts[0] !== realeseVersionParts[0] ? 'major' : 'minor')+'\n---\n\nUpgrade 7zip binaries to v'+realese.tag_name+'\n\n');
+		const newPackageVersion = realeseVersionParts[0]+'.'+realeseVersionParts[1]+'.'+(realeseVersionParts[2] ?? 0);
+
+		fs.writeFileSync('.changeset/update-7zip-'+realese.tag_name+'.md', '---\n"7zip-bin": '+newPackageVersion+'\n---\n\nUpgrade 7zip binaries to v'+realese.tag_name+'\n\n');
 		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
-		fs.writeFileSync('package-version.txt', realeseVersionParts[0]+'.'+realeseVersionParts[1]+'.'+(realeseVersionParts[2] ?? 0)); // Save the new package version to a file, in format 24.9.0
+		fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
 	}
 
 	console.log(`${styleText(['bold', 'cyanBright'], 'Updating 7z binaries to:')} ${styleText(['bold', 'magentaBright'], realese.tag_name)}`);
