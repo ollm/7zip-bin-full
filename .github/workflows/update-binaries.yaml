@@ -54,12 +54,16 @@ jobs:
       - name: Bump version with pnpm
         run: pnpm version ${{ steps.packageVersion.outputs.version }} --no-git-tag-version
 
+      - name: Commit changes
+        run: |
+          git add -A
+          git commit -m "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}" || echo "No changes to commit"
+
       - name: Create Pull Request with changesets/action
         uses: changesets/action@v1
         with:
           version: changeset version
           title: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
           commit: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
-          createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
