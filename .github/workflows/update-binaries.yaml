@@ -55,16 +55,6 @@ jobs:
       - name: Bump version with pnpm
         run: pnpm version ${{ steps.packageVersion.outputs.version }} --no-git-tag-version
 
-      - name: Set up Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Git commit
-        run: |
-          git add --force win linux mac package.json package-lock.json
-          git commit -m "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}" || echo "No changes to commit"
-
       - name: Create Pull Request with changesets/action
         uses: changesets/action@v1
         with:
