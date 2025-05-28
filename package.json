@@ -3,7 +3,8 @@
   "description": "7-Zip precompiled binaries",
   "version": "5.2.0",
   "scripts": {
-    "update-7z": "node update-7z.js"
+    "update-7z": "node update-7z.js",
+    "ci:version": "changeset version; node update-version.js"
   },
   "files": [
     "*.js",

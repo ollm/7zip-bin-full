@@ -35,8 +35,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install -g @changesets/cli @changesets/changelog-github
-          npm install
+          pnpm install -g @changesets/cli @changesets/changelog-github
+          pnpm install
 
       - name: Run update binaries script
         id: update
@@ -48,23 +48,10 @@ jobs:
           echo "version=$(cat 7z-version.txt)" >> $GITHUB_OUTPUT
           rm 7z-version.txt
 
-      - name: Get package version
-        id: packageVersion
-        run: |
-          echo "version=$(cat package-version.txt)" >> $GITHUB_OUTPUT
-          rm package-version.txt
-
-      - name: Bump version with pnpm
-        run: pnpm version ${{ steps.packageVersion.outputs.version }} --no-git-tag-version
-
       - name: Create Pull Request with changesets/action
         uses: changesets/action@v1
         with:
-          version: |
-            changeset version
-            pnpm version ${{ steps.packageVersion.outputs.version }} --no-git-tag-version
-            node update-version.js ${{ steps.packageVersion.outputs.version }}
-            node -e "const fs = require('node:fs'); const readme = fs.readFileSync('./README.md', 'utf8'); fs.writeFileSync(readme.replace(/## (\d+\.\d+\.\d+)/, '## ${{ steps.packageVersion.outputs.version }}'), 'utf8');"
+          version: pnpm ci:version
           title: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
           commit: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
           createGithubReleases: false
