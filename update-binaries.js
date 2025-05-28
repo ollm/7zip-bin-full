@@ -26,6 +26,7 @@ const bin7z = p.join(__dirname, 'temporary-7z');
 const bin7zDll = dll ? p.join(__dirname, '7z.dll') : false; // Only for Windows
 
 const forceVersion = process.env.DOWNLOAD_7Z_VERSION || ''; // You can set this to force a version, example 24.09
+const publish = process.argv.includes('--publish');
 
 const binaries = [
 	// Windows x64
@@ -174,7 +175,10 @@ const errors = [];
 
 	const realese = await findLatestRelease(forceVersion);
 
-	console.log(`${styleText(['bold', 'cyanBright'], 'Updating 7z binaries to:')} ${styleText(['bold', 'magentaBright'], realese.name)}`);
+	if(publish)
+		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
+
+	console.log(`${styleText(['bold', 'cyanBright'], 'Updating 7z binaries to:')} ${styleText(['bold', 'magentaBright'], realese.tag_name)}`);
 	console.log('');
 
 	for(const binary of binaries)

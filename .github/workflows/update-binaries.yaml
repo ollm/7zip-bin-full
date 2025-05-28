@@ -1,0 +1,49 @@
+name: Run update binaries script and open pull rquest
+
+on:
+	workflow_dispatch:	# Allows you to run this workflow manually from the Actions tab
+	schedule:
+		- cron: '0 6 * * *' # Daily
+
+jobs:
+	update:
+		runs-on: ubuntu-latest
+		permissions:
+			contents: write
+			pull-requests: write
+
+		steps:
+			- name: Checkout repository
+				uses: actions/checkout@v4
+
+			- name: Set up Node.js
+				uses: actions/setup-node@v4
+				with:
+					node-version: '22'
+
+			- name: Install pnpm
+				uses: pnpm/action-setup@v4
+				with:
+					version: 9.4.0
+
+			- name: Install dependencies
+				run: npm install
+
+			- name: Run update binaries script
+				id: update
+				run: node update-binaries.js --publish
+
+			- name: Get 7zip version
+				id: version
+				run: echo "version=$(cat 7z-version.txt)" >> $GITHUB_OUTPUT; rm 7z-version.txt
+
+			- name: Bump version with pnpm
+				run: pnpm version ${{ steps.version.outputs.version }}
+
+			- name: Create Pull Request with changesets/action
+				uses: changesets/action@v1
+				with:
+					title: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
+					commit: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
+				env:
+					GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
