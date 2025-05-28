@@ -1,4 +1,4 @@
-name: Run update binaries script and open pull request
+name: Update 7zip binaries
 
 on:
   push:
