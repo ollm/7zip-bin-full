@@ -60,7 +60,7 @@ jobs:
       - name: Create Pull Request with changesets/action
         uses: changesets/action@v1
         with:
-          version: changeset version ${{ steps.packageVersion.outputs.version }}
+          version: changeset version
           title: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
           commit: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
           createGithubReleases: false
