@@ -1,4 +1,4 @@
-name: Run update binaries script and open pull rquest
+name: Run update binaries script and open pull request
 
 on:
   workflow_dispatch:  # Allows you to run this workflow manually from the Actions tab
