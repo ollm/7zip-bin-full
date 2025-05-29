@@ -57,6 +57,9 @@ jobs:
       - name: Bump version with pnpm
         run: pnpm version ${{ steps.packageVersion.outputs.version }} --no-git-tag-version
 
+      - name: Git add
+        run: git add -A win linux mac package.json package-lock.json
+
       - name: Create Pull Request with changesets/action
         uses: changesets/action@v1
         with:
