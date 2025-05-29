@@ -42,22 +42,32 @@ jobs:
         id: update
         run: node update-binaries.js --publish
 
+      - name: Get update abort
+        id: abort
+        run: |
+          echo "abort=$(cat abort.txt)" >> $GITHUB_OUTPUT
+          rm abort.txt
+
       - name: Get 7zip version
+        if: steps.abort.outputs.abort != '1'
         id: version
         run: |
           echo "version=$(cat 7z-version.txt)" >> $GITHUB_OUTPUT
           rm 7z-version.txt
 
       - name: Get package version
+        if: steps.abort.outputs.abort != '1'
         id: packageVersion
         run: |
           echo "version=$(cat package-version.txt)" >> $GITHUB_OUTPUT
           rm package-version.txt
 
       - name: Bump version with pnpm
+        if: steps.abort.outputs.abort != '1'
         run: pnpm version ${{ steps.packageVersion.outputs.version }} --no-git-tag-version
 
       - name: Create Pull Request with changesets/action
+        if: steps.abort.outputs.abort != '1'
         uses: changesets/action@v1
         with:
           version: changeset version

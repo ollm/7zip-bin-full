@@ -186,11 +186,54 @@ const errors = [];
 	// Abort if the release version is the same as the current version
 	if(versionParts[0] === realeseVersionParts[0] && versionParts[1] === realeseVersionParts[1] && !force)
 	{
-		console.log(`${styleText(['bold', 'greenBright'], 'No updates available.')}`);
+		console.log(`${styleText(['bold', 'greenBright'], 'No updates available')}`);
 		console.log(`${styleText(['bold', 'cyanBright'], 'Current 7z binaries version:')} ${styleText(['bold', 'magentaBright'], realese.tag_name)}`);
-		if(publish) console.log('');
+
+		if(publish)
+		{
+			console.log('');
+			fs.writeFileSync('abort.txt', '1'); // Set if the action should be aborted
+		}
 
 		return;
+	}
+
+	// Abort if exists a pull request with the same version
+	if(publish && !force)
+	{
+		console.log(`${styleText(['bold', 'yellowBright'], 'Checking if a pull request exists for this version...')}`);
+
+		const response = await fetch('https://api.github.com/repos/ollm/7zip-bin/pulls?state=open&per_page=100', {});
+		const json = await response.json();
+
+		let pullVersion = '';
+
+		for(const pull of json)
+		{
+			if(pull.user.login === 'github-actions[bot]' && /v((?:[0-9]+\.?)+)/.test(pull.title))
+			{
+				pullVersion = pull.title.match(/v((?:[0-9]+\.?)+)/)[1];
+
+				break;
+			}
+		}
+
+		const pullVersionParts = pullVersion.split('.').map(Number);
+
+		if(pullVersionParts[0] === realeseVersionParts[0] && pullVersionParts[1] === realeseVersionParts[1] && !force)
+		{
+			console.log(`${styleText(['bold', 'greenBright'], 'There is already a pull request for this version:')} ${styleText(['bold', 'magentaBright'], realese.tag_name)}`);
+			console.log('');
+
+			fs.writeFileSync('abort.txt', '1'); // Set if the action should be aborted
+
+			return;
+		}
+		else
+		{
+			console.log(`${styleText(['bold', 'greenBright'], 'No pull request for this version')}`);
+			console.log('');
+		}
 	}
 
 	if(publish)
@@ -200,6 +243,7 @@ const errors = [];
 		fs.writeFileSync('.changeset/update-7zip-'+realese.tag_name+'.md', '---\n"7zip-bin": '+(versionParts[0] !== realeseVersionParts[0] ? 'major' : 'minor')+'\n---\n\nUpgrade 7zip binaries to v'+realese.tag_name+'\n\n');
 		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
 		fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
+		fs.writeFileSync('abort.txt', '0'); // Set if the action should be aborted
 	}
 
 	console.log(`${styleText(['bold', 'cyanBright'], 'Updating 7z binaries to:')} ${styleText(['bold', 'magentaBright'], realese.tag_name)}`);
