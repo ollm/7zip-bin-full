@@ -28,9 +28,15 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.4.0
+
       - name: Install dependencies
         run: |
-          npm install
+          pnpm install -g @changesets/cli @changesets/changelog-github
+          pnpm install
 
       - name: Run update binaries script
         id: update
@@ -48,8 +54,8 @@ jobs:
           echo "version=$(cat package-version.txt)" >> $GITHUB_OUTPUT
           rm package-version.txt
 
-      - name: Bump version with npm
-        run: npm version ${{ steps.packageVersion.outputs.version }} --no-git-tag-version
+      - name: Bump version with pnpm
+        run: pnpm version ${{ steps.packageVersion.outputs.version }} --no-git-tag-version
 
       - name: Create Pull Request with changesets/action
         uses: changesets/action@v1
