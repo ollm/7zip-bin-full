@@ -30,7 +30,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install -g @changesets/cli @changesets/cli/commit @changesets/changelog-github
           npm install
 
       - name: Run update binaries script
