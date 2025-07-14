@@ -1,13 +1,17 @@
 const fs = require('node:fs');
 const p = require('node:path');
+const util = require('node:util');
 const n7z = require('node-7z');
+const {exec} = require('child_process');
+const execAsync = util.promisify(exec);
 const styleText = require('node:util').styleText;
 
 let dll = false;
 
+const path7z = require('./index.js').path7z || p.join(__dirname, 'linux', process.arch, '7zz');
+
 if(!fs.existsSync('temporary-7z')) // Temporarily copy the binary to the root of the project folder to avoid errors during extraction
 {
-	const path7z = require('./index.js').path7z || p.join(__dirname, 'linux', process.arch, '7zz');
 	fs.copyFileSync(path7z, 'temporary-7z');
 
 	if(/7z\.exe$/.test(path7z)) // Only for Windows
@@ -240,7 +244,7 @@ const errors = [];
 	{
 		const newPackageVersion = realeseVersionParts[0]+'.'+realeseVersionParts[1]+'.'+(realeseVersionParts[2] ?? 0);
 
-		fs.writeFileSync('README.md', fs.readFileSync('README.md', 'utf8').replace(/Current version \`[0-9\.]+\`/, `Current version \`${realese.tag_name}\``)); // Update package.json version
+		fs.writeFileSync('README.md', fs.readFileSync('README.md', 'utf8').replace(/Current version \`[0-9\.]+\`/, `Current version \`${realese.tag_name}\``)); // Update README.md version
 		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
 		fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
 		fs.writeFileSync('abort.txt', '0'); // Set if the action should be aborted
@@ -321,6 +325,12 @@ const errors = [];
 		}
 
 		console.log('');
+	}
+
+	if(publish) // Update the Flags with the new 7z version in README.md
+	{
+		const {stdout, stderr} = await execAsync(path7z);
+		fs.writeFileSync('README.md', fs.readFileSync('README.md', 'utf8').replace(/bash[\s\S]+/, `bash\n${stdout}`));
 	}
 
 	await fs.promises.unlink(bin7z); // Delete the binary copy

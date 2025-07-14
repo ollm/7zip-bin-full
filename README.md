@@ -4,7 +4,7 @@ Downloaded from https://github.com/ip7z/7zip/releases
 
 ### Info
 
-This is a fork of [develar/7zip-bin](https://github.com/develar/7zip-bin), with binaries automatically updated and published to [npm](https://www.npmjs.com/package/7zip-bin-full). It serves as a temporary solution until [develar/7zip-bin#29](https://github.com/develar/7zip-bin/pull/29) is merged into the original repository.
+This is a fork of [develar/7zip-bin](https://github.com/develar/7zip-bin), with binaries automatically updated and published to [npm](https://www.npmjs.com/package/7zip-bin-full). It serves as a temporary solution until [develar/7zip-bin#28](https://github.com/develar/7zip-bin/pull/29) and [develar/7zip-bin#29](https://github.com/develar/7zip-bin/pull/29) pull requests are solved.
 
 ### Get paths
 
@@ -22,8 +22,9 @@ const path7x = require('7zip-bin-full').path7x;
 ### Flags
 
 ``` bash
-7-Zip (z) 24.08 (arm64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-08-11
- 64-bit arm_v:8.5-A locale=en_US.UTF-8 Threads:12 OPEN_MAX:1048575, ASM
+
+7-Zip (z) 25.00 (x64) : Copyright (c) 1999-2025 Igor Pavlov : 2025-07-05
+ 64-bit locale=es_ES.UTF-8 Threads:32 OPEN_MAX:1048576, ASM
 
 Usage: 7zz <command> [<switches>...] <archive_name> [<file_names>...] [@listfile]
 
@@ -88,4 +89,3 @@ Usage: 7zz <command> [<switches>...] <archive_name> [<file_names>...] [@listfile
   -w[{path}] : assign Work directory. Empty path means a temporary directory
   -x[r[-|0]][m[-|2]][w[-]]{@listfile|!wildcard} : eXclude filenames
   -y : assume Yes on all queries
-```
