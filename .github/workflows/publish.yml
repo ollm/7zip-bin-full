@@ -23,24 +23,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          registry-url: 'https://registry.npmjs.org/'  # This line is crucial
 
-      - name: Check last commit message
-        id: check_commit
-        run: |
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          echo "Last commit message: $COMMIT_MSG"
-          if [[ "$COMMIT_MSG" =~ chore:\ upgrade ]]; then
-            echo "match=true" >> $GITHUB_OUTPUT
-          else
-            echo "match=false" >> $GITHUB_OUTPUT
-          fi
+#      - name: Check last commit message
+#        id: check_commit
+#        run: |
+#          COMMIT_MSG=$(git log -1 --pretty=%B)
+#          echo "Last commit message: $COMMIT_MSG"
+#          if [[ "$COMMIT_MSG" =~ chore:\ upgrade ]]; then
+#            echo "match=true" >> $GITHUB_OUTPUT
+#          else
+#            echo "match=false" >> $GITHUB_OUTPUT
+#          fi
 
       - name: Install dependencies
-        if: steps.check_commit.outputs.match == 'true'
+#        if: steps.check_commit.outputs.match == 'true'
         run: npm ci
 
       - name: Publish to npm
-        if: steps.check_commit.outputs.match == 'true'
+#        if: steps.check_commit.outputs.match == 'true'
         run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
