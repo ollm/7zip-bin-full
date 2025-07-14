@@ -2,6 +2,10 @@
 ### Current version `24.09`
 Downloaded from https://github.com/ip7z/7zip/releases
 
+### Info
+
+This is a fork of [develar/7zip-bin](https://github.com/develar/7zip-bin), with binaries automatically updated and published to [npm](https://www.npmjs.com/package/7zip-bin-full). It serves as a temporary solution until [develar/7zip-bin#29](https://github.com/develar/7zip-bin/pull/29) is merged into the original repository.
+
 ### Get paths
 
 ``` js

@@ -240,7 +240,7 @@ const errors = [];
 	{
 		const newPackageVersion = realeseVersionParts[0]+'.'+realeseVersionParts[1]+'.'+(realeseVersionParts[2] ?? 0);
 
-		fs.writeFileSync('README.md', fs.readFileSync('README.md', 'utf8').replace(/Current version `"[0-9\.]+"`/, `Current version \`${realese.tag_name}\``)); // Update package.json version
+		fs.writeFileSync('README.md', fs.readFileSync('README.md', 'utf8').replace(/Current version \`[0-9\.]+\`/, `Current version \`${realese.tag_name}\``)); // Update package.json version
 		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
 		fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
 		fs.writeFileSync('abort.txt', '0'); // Set if the action should be aborted

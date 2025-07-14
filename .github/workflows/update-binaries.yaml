@@ -1,9 +1,6 @@
 name: Update 7zip binaries
 
 on:
-  push:
-    branches:
-      - auto-update-action
   workflow_dispatch:  # Allows you to run this workflow manually from the Actions tab
   schedule:
     - cron: '0 6 * * *' # Daily
