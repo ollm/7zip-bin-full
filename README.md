@@ -1,5 +1,5 @@
 # 7-Zip precompiled binaries
-### Current version `24.09`
+### Current version `25.00`
 Downloaded from https://github.com/ip7z/7zip/releases
 
 ### Info
