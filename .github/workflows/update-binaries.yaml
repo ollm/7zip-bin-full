@@ -71,7 +71,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
-          branch: main
           title: "chore: upgrade 7zip binaries to v${{ steps.version.outputs.version }}"
           body: |
             This pull request was automatically created by a GitHub Action.
+          branch: update-branch
+          base: main
