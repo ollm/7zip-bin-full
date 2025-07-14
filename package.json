@@ -10,14 +10,16 @@
     "7x.sh",
     "index.d.ts",
     "linux",
-    "mac",
-    "win"
+    "win",
+    "mac"
   ],
   "license": "MIT",
   "repository": "ollm/7zip-bin-full",
   "keywords": [
     "7zip",
     "7z",
+    "7zz",
+    "7zzs",
     "7za"
   ],
   "devDependencies": {
