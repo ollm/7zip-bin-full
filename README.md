@@ -4,7 +4,7 @@ Downloaded from https://github.com/ip7z/7zip/releases
 
 ### Info
 
-This is a fork of [develar/7zip-bin](https://github.com/develar/7zip-bin), with binaries automatically updated and published to [npm](https://www.npmjs.com/package/7zip-bin-full). It serves as a temporary solution until [develar/7zip-bin#28](https://github.com/develar/7zip-bin/pull/29) and [develar/7zip-bin#29](https://github.com/develar/7zip-bin/pull/29) pull requests are solved.
+This is a fork of [develar/7zip-bin](https://github.com/develar/7zip-bin), with binaries automatically updated and published to [npm](https://www.npmjs.com/package/7zip-bin-full). It serves as a temporary solution until [develar/7zip-bin#28](https://github.com/develar/7zip-bin/pull/28) and [develar/7zip-bin#29](https://github.com/develar/7zip-bin/pull/29) pull requests are solved.
 
 ### Get paths
 

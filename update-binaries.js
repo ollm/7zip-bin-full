@@ -244,7 +244,14 @@ const errors = [];
 	{
 		const newPackageVersion = realeseVersionParts[0]+'.'+realeseVersionParts[1]+'.'+(realeseVersionParts[2] ?? 0);
 
+		const date = new Date();
+
+		const day = String(date.getDate()).padStart(2, '0');
+		const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+		const year = date.getFullYear();
+
 		fs.writeFileSync('README.md', fs.readFileSync('README.md', 'utf8').replace(/Current version \`[0-9\.]+\`/, `Current version \`${realese.tag_name}\``)); // Update README.md version
+		fs.writeFileSync('CHANGELOG.md', fs.readFileSync('CHANGELOG.md', 'utf8').replace(/\<!-- VERSIONS --\>/, `<!-- VERSIONS -->\n\n## v${newPackageVersion} (${day}-${month}-${year})\n\n##### Changed\n\n- chore: upgrade 7zip binaries to v${realese.tag_name}`)); // Update CHANGELOG.md version
 		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
 		fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
 		fs.writeFileSync('abort.txt', '0'); // Set if the action should be aborted
