@@ -1,5 +1,5 @@
 {
-  "name": "7zip-bin",
+  "name": "7zip-bin-full",
   "description": "7-Zip precompiled binaries",
   "version": "5.2.0",
   "scripts": {
@@ -14,7 +14,7 @@
     "win"
   ],
   "license": "MIT",
-  "repository": "develar/7zip-bin",
+  "repository": "ollm/7zip-bin-full",
   "keywords": [
     "7zip",
     "7z",
