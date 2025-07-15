@@ -1,7 +1,7 @@
 {
   "name": "7zip-bin-full",
   "description": "7-Zip precompiled binaries",
-  "version": "25.0.2",
+  "version": "25.0.3",
   "scripts": {
     "update-7z": "node update-7z.js"
   },
