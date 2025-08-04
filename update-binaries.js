@@ -240,25 +240,6 @@ const errors = [];
 		}
 	}
 
-	if(publish)
-	{
-		const newPackageVersion = realeseVersionParts[0]+'.'+realeseVersionParts[1]+'.'+(realeseVersionParts[2] ?? 0);
-
-		const date = new Date();
-
-		const day = String(date.getDate()).padStart(2, '0');
-		const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-		const year = date.getFullYear();
-
-		const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
-
-		fs.writeFileSync('README.md', fs.readFileSync('README.md', 'utf8').replace(/Current version \`[0-9\.]+\`/, `Current version \`${realese.tag_name}\``)); // Update README.md version
-		fs.writeFileSync('CHANGELOG.md', (new RegExp(newPackageVersion)).test(changelog) ? changelog : changelog.replace(/\<!-- VERSIONS --\>/, `<!-- VERSIONS -->\n\n## v${newPackageVersion} (${day}-${month}-${year})\n\n##### Changed\n\n- chore: upgrade 7zip binaries to v${realese.tag_name}`)); // Update CHANGELOG.md version
-		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
-		fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
-		fs.writeFileSync('abort.txt', '0'); // Set if the action should be aborted
-	}
-
 	console.log(`${styleText(['bold', 'cyanBright'], 'Updating 7z binaries to:')} ${styleText(['bold', 'magentaBright'], realese.tag_name)}`);
 	console.log('');
 
@@ -336,11 +317,38 @@ const errors = [];
 		console.log('');
 	}
 
-	if(publish) // Update the Flags with the new 7z version in README.md
+	if(publish)
 	{
+		const newPackageVersion = realeseVersionParts[0]+'.'+realeseVersionParts[1]+'.'+(realeseVersionParts[2] ?? 0);
+
+		const date = new Date();
+
+		const day = String(date.getDate()).padStart(2, '0');
+		const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+		const year = date.getFullYear();
+
+		const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+		const history = fs.readFileSync(p.join('win', 'x64', 'History.txt'), 'utf8');
+
+		const changelog7zip = history.match(/[0-9-]+(?:\r\n|\r|\n)-+(?:\r\n|\r|\n)([\s\S]*?)(?:\r\n|\r|\n){3}/)[1];
+
+		fs.writeFileSync('CHANGELOG.md', (new RegExp(newPackageVersion)).test(changelog) ? changelog : changelog.replace(/\<!-- VERSIONS --\>/, `<!-- VERSIONS -->\n\n## v${newPackageVersion} (${day}-${month}-${year})\n\n##### Changed\n\n- chore: upgrade 7zip binaries to v${realese.tag_name}\n\`\`\`\n${changelog7zip}\n\`\`\``)); // Update CHANGELOG.md version and add 7zip changelog
+
+		// Update README.md
+		let readme = fs.readFileSync('README.md', 'utf8');
+		readme = readme.replace(/Current version \`[0-9\.]+\`/, `Current version \`${realese.tag_name}\``); // Update README.md version
+
+		// Update the Flags with the new 7z version in README.md
 		const formats = await execAsync(path7z+' i');
 		const flags = await execAsync(path7z);
-		fs.writeFileSync('README.md', fs.readFileSync('README.md', 'utf8').replace(/### Formats/, `### Formats\n\n\`\`\`none${formats.stdout}\`\`\`\n\n### Flags\n\n\`\`\`none${flags.stdout}\`\`\``));
+
+		readme = readme.replace(/### Formats[\s\S]+/, `### Formats\n\n\`\`\`none${formats.stdout}\`\`\`\n\n### Flags\n\n\`\`\`none${flags.stdout}\`\`\``);
+		fs.writeFileSync('README.md', readme);
+
+		// GitHub action data
+		fs.writeFileSync('7z-version.txt', realese.tag_name); // Save the version to a file
+		fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
+		fs.writeFileSync('abort.txt', '0'); // Set if the action should be aborted
 	}
 
 	await fs.promises.unlink(bin7z); // Delete the binary copy
