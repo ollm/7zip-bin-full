@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- VERSIONS -->
 
+## v25.1.0 (04-08-2025)
+
+##### Changed
+
+- chore: upgrade 7zip binaries to v25.01
+
 ## v25.0.0 (14-07-2025)
 
 ##### Changed
