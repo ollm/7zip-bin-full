@@ -1,5 +1,5 @@
 # 7-Zip precompiled binaries
-### Current version `25.01`
+### Current version `26.00`
 Downloaded from https://github.com/ip7z/7zip/releases
 
 > [!NOTE]
@@ -44,8 +44,8 @@ const path7x = require('7zip-bin-full').path7x;
 ### Formats
 
 ```none
-7-Zip (z) 25.01 (x64) : Copyright (c) 1999-2025 Igor Pavlov : 2025-08-03
- 64-bit locale=es_ES.UTF-8 Threads:32 OPEN_MAX:1048576, ASM
+7-Zip (z) 26.00 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-02-12
+ 64-bit locale=C.UTF-8 Threads:4 OPEN_MAX:65536, ASM
 
 
 Formats:
@@ -58,7 +58,7 @@ Formats:
     ......O...............  COFF     obj           
     ...F..................  Cab      cab           M S C F 00 00 00 00
     ......................  Chm      chm chi chq chw I T S F 03 00 00 00 ` 00 00 00
-    ......................  Compound msi msp doc xls ppt D0 CF 11 E0 A1 B1 1A E1
+    ......................  Compound msi msp msm doc xls ppt aaf D0 CF 11 E0 A1 B1 1A E1
     ....M.................  Cpio     cpio          0 7 0 7 0  ||  C7 q  ||  q C7
     ......................  CramFS   cramfs        offset=16 C o m p r e s s e d 20 R O M F S
     .....G..B.............  Dmg      dmg           k o l y 00 00 00 04 00 00 02 00
@@ -154,8 +154,8 @@ Hashers:
 ### Flags
 
 ```none
-7-Zip (z) 25.01 (x64) : Copyright (c) 1999-2025 Igor Pavlov : 2025-08-03
- 64-bit locale=es_ES.UTF-8 Threads:32 OPEN_MAX:1048576, ASM
+7-Zip (z) 26.00 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-02-12
+ 64-bit locale=C.UTF-8 Threads:4 OPEN_MAX:65536, ASM
 
 Usage: 7zz <command> [<switches>...] <archive_name> [<file_names>...] [@listfile]
 

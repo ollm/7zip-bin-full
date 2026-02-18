@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- VERSIONS -->
 
+## v26.0.0 (18-02-2026)
+
+##### Changed
+
+- chore: upgrade 7zip binaries to v26.00
+```
+- improved code for ZIP, CPIO, RAR, UFD, QCOW, Compound.
+- 7-Zip File Manager: improved sorting order of the file list. It uses file name as secondary sorting key.
+- 7-Zip File Manager: improved Benchmark to support systems with more than 64 CPU threads.
+- the bug was fixed: 7-Zip could not correctly extract TAR archives containing sparse files.
+- some bugs were fixed.
+```
+
 ## v25.1.0 (04-08-2025)
 
 ##### Changed

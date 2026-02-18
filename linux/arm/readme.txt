@@ -1,17 +1,17 @@
-7-Zip 25.01 for Linux and macOS
+7-Zip 26.00 for Linux and macOS
 -------------------------------
 
 7-Zip is a file archiver for Windows/Linux/macOS.
 
-7-Zip Copyright (C) 1999-2025 Igor Pavlov.
+7-Zip Copyright (C) 1999-2026 Igor Pavlov.
 
-The main features of 7-Zip: 
+The main features of 7-Zip:
 
   - High compression ratio in the new 7z format
   - Supported formats:
      - Packing / unpacking: 7z, XZ, BZIP2, GZIP, TAR, ZIP and WIM.
      - Unpacking only: APFS, AR, ARJ, Base64, CAB, CHM, CPIO, CramFS, DMG, EXT, FAT, GPT, HFS,
-                       IHEX, ISO, LZH, LZMA, MBR, MSI, NSIS, NTFS, QCOW2, RAR, 
+                       IHEX, ISO, LZH, LZMA, MBR, MSI, NSIS, NTFS, QCOW2, RAR,
                        RPM, SquashFS, UDF, UEFI, VDI, VHD, VHDX, VMDK, XAR, Z and ZSTD.
   - Fast compression and decompression
   - Strong AES-256 encryption in 7z and ZIP formats
@@ -38,13 +38,13 @@ Now there are two different ports of 7-Zip for Linux/macOS:
 
 2) 7-Zip for Linux/macOS - this package - it's new code with all changes from latest 7-Zip for Windows.
 
-These two ports are not identical. 
+These two ports are not identical.
 Note also that some Linux specific things can be implemented better in p7zip than in new 7-Zip for Linux.
 
 
 There are several main executables in 7-Zip and p7zip:
     
-    7zz  (7-Zip) - standalone full version of 7-Zip that supports all formats. 
+    7zz  (7-Zip) - standalone full version of 7-Zip that supports all formats.
 
     7zzs (7-Zip) - standalone full version of 7-Zip that supports all formats (static library linking).
 
@@ -54,16 +54,16 @@ There are several main executables in 7-Zip and p7zip:
     7zr (p7zip) - standalone reduced version of 7-Zip that supports some 7-Zip's formats:
                   7z, xz, lzma and split.
     
-    7za (p7zip) - standalone version of 7-Zip that supports some main formats: 
+    7za (p7zip) - standalone version of 7-Zip that supports some main formats:
                   7z, xz, lzma, zip, bzip2, gzip, tar, cab, ppmd and split.
 
 7zzs is similar to 7zz, but 7zzs was compiled for static library linking,
-so 7zzs does not use external shared library (".so") files. 
+so 7zzs does not use external shared library (".so") files.
 You can use 7zzs, if 7zz does not work due to lack of required shared library (".so") files.
 
 The command line syntax for executables from p7zip is similar to 7zz syntax from this package.
 
-The manual of 7-Zip and p7zip can show `7z` in command examples. 
+The manual of 7-Zip and p7zip can show `7z` in command examples.
 But you can use `7zz`, `7zr`, `7za` instead of `7z` from examples.
 
 
@@ -71,7 +71,7 @@ Example commands
 ================
 
 Note: 7-Zip supports filename wildcards in commands.
-You must use the quotes for filenames, if you want to use 7-Zip parser for wildcards 
+You must use the quotes for filenames, if you want to use 7-Zip parser for wildcards
 instead of the parser of system shell.
 
 To create zip archive from all *.txt files in current directory:
@@ -92,7 +92,7 @@ To test archive and show the log for each file:
 The benchmark command to test the performance of CPU with 7-Zip's LZMA code:
   ./7zz b
 
-The benchmark command to test the performance of CPU with different compression, encryption 
+The benchmark command to test the performance of CPU with different compression, encryption
 and hash methods from 7-Zip and with different number of threads:
   ./7zz b "-mm=*" "-mmt=*"
 
