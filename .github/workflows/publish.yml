@@ -6,6 +6,10 @@ on:
       - main  # only run when code is merged into main
   workflow_dispatch:  # Allows you to run this workflow manually from the Actions tab
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 jobs:
   publish:
     name: Publish Package
@@ -30,5 +34,3 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
