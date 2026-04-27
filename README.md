@@ -43,7 +43,7 @@ const path7x = require('7zip-bin-full').path7x;
 - Use `USE_SYSTEM_7Z` to use system 7za instead of binaries in repo.
 - Use `SZ_COMPRESSION_LEVEL` for setting compression level in 7x.sh
 
-### 7zc
+### Custom 7-Zip binaries (`7zc`, `7zzsc`)
 
 The `7zc` and `7zzsc` binaries are built from a custom fork of 7-Zip: [ollm/7zip](https://github.com/ollm/7zip). The current version of these binaries is `26.00`.
 
