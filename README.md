@@ -15,8 +15,8 @@ All binaries are **full** feature version to ensure complete compatibility with 
 | Windows ia32 (x86) | `7z.exe`, `7z.dll`  |
 | Windows arm64 | `7z.exe`, `7z.dll`  |
 | Windows arm | `7z.exe`, `7z.dll`  |
-| Mac x64 | `7zz`  |
-| Mac arm64 | `7zz`  |
+| macOS x64 | `7zz`  |
+| macOS arm64 | `7zz`  |
 | Linux x64 | `7zz`, `7zzs`  |
 | Linux ia32 (x86) | `7zz`, `7zzs`  |
 | Linux arm64 | `7zz`, `7zzs`  |
@@ -33,13 +33,57 @@ npm install 7zip-bin-full
 ``` js
 
 const path7z = require('7zip-bin-full').path7z;
+const path7zc = require('7zip-bin-full').path7zc;
 const path7zzs = require('7zip-bin-full').path7zzs; // Get 7zzs binary instead of 7zz (Only for Linux)
+const path7zzsc = require('7zip-bin-full').path7zzsc; // Get 7zzsc binary instead of 7zzc (Only for Linux)
 const path7x = require('7zip-bin-full').path7x;
 
 ```
 
 - Use `USE_SYSTEM_7Z` to use system 7za instead of binaries in repo.
 - Use `SZ_COMPRESSION_LEVEL` for setting compression level in 7x.sh
+
+### 7zc
+
+The `7zc` and `7zzs` binaries are built from a custom fork of 7-Zip: [ollm/7zip](https://github.com/ollm/7zip). The current version of these binaries is `26.00`.
+
+This version includes two additional flags: `-slb` and `-snf`. If you don't need these features, you should use the official binaries instead.
+
+* `-slb`: Extract the first *N* bytes of each file to stdout
+* `-snf`: Print a filename header to stdout before each file (use `{name}` as a placeholder)
+
+The `-slb` flag is useful when you only need to read the first bytes of a file, for example, to inspect a file header without fully extracting it, or to determine an image's resolution. This is typically much faster than extracting the entire file.
+
+The `-snf` flag allows you to prepend each file's output with its filename, which is helpful when streaming multiple files to stdout and needing to distinguish between them.
+
+For example, the following command extracts the first 64 bytes of each file from `archive.7z` and prints them to stdout, prefixed with a header containing the filename:
+
+```sh
+./7zc x -so -slb64 -snf'<<<FILE:{name}>>>' -- archive.7z image5.png image4.png image3.png
+```
+
+This will produce an output stream like:
+
+```none
+<<<FILE:image3.png>>><first 64 bytes of image3.png><<<FILE:image4.png>>><first 64 bytes of image4.png><<<FILE:image5.png>>><first 64 bytes of image5.png>
+```
+
+> [!NOTE]
+> The output order may differ from the input file list, depending on how 7-Zip processes the archive.
+
+All same binaries are available except for Windows arm.
+
+| Platform | Binary |
+|--|--|
+| Windows x64 | `7z.exe`, `7z.dll`  |
+| Windows ia32 (x86) | `7z.exe`, `7z.dll`  |
+| Windows arm64 | `7z.exe`, `7z.dll`  |
+| macOS x64 | `7zzc`  |
+| macOS arm64 | `7zzc`  |
+| Linux x64 | `7zzc`, `7zzsc`  |
+| Linux ia32 (x86) | `7zzc`, `7zzsc`  |
+| Linux arm64 | `7zzc`, `7zzsc`  |
+| Linux arm | `7zzc`, `7zzsc`  |
 
 ### Formats
 
