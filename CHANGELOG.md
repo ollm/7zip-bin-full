@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- VERSIONS -->
 
+## v26.1.0 (28-04-2026)
+
+##### Changed
+
+- chore: upgrade 7zip binaries to v26.01
+```
+- linux version of 7-Zip can use huge pages (2 MB pages). It can increase compression
+  speed for 10% for 7z/xz/LZMA/LZMA2 compression.
+- new -spo[d|c|r] switch specifies the path generation mode for the output directory
+  for archive extraction. The output directory path is generated from the path specified
+  in the -o{dir_path} switch and the name of the archive being unpacked.
+    -spod : for Linux/Posix/macOS: -o{dir_path} specifies the direct path to the output directory.
+            The asterisk (*) character in {dir_path} will not be replaced by the archive name.
+    -spoc : 7-Zip will concatenate the path specified in -o{dir_path} with the archive name
+            to form the final path to the output directory.
+    -spor : 7-Zip will replace asterisk (*) character in the path specified in the -o{dir_path}
+            with the archive name. This is the default option.
+- some bugs were fixed.
+```
+
 ## v26.0.0 (18-02-2026)
 
 ##### Changed
