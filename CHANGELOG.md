@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- VERSIONS -->
 
+## v26.2.1 (02-07-2026)
+
+##### Changed
+
+- Updated `7zc` binaries to 26.02 and improved `-slb` performance
+
 ## v26.2.0 (26-06-2026)
 
 ##### Changed

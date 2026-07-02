@@ -45,7 +45,7 @@ const path7x = require('7zip-bin-full').path7x;
 
 ### Custom 7-Zip binaries (`7zc`, `7zzsc`)
 
-The `7zc` and `7zzsc` binaries are built from a custom fork of 7-Zip: [ollm/7zip](https://github.com/ollm/7zip). The current version of these binaries is `26.00`.
+The `7zc` and `7zzsc` binaries are built from a custom fork of 7-Zip: [ollm/7zip](https://github.com/ollm/7zip). The current version of these binaries is `26.02`.
 
 This version includes two additional flags: `-slb` and `-snf`. If you don't need these features, you should use the official binaries instead.
 
@@ -84,6 +84,19 @@ All same binaries are available except for Windows arm.
 | Linux ia32 (x86) | `7zzc`, `7zzsc`  |
 | Linux arm64 | `7zzc`, `7zzsc`  |
 | Linux arm | `7zzc`, `7zzsc`  |
+
+**Benchmark:**
+
+1 folder, 137 files, 1389970597 bytes (1326 MiB), (Approx 10 MiB per image)
+
+| Format | Full extraction | `-slb64` (First 64 bits) | Speedup |
+|--------|----------------:|-------------------------:|---------:|
+| ZIP -r 0 | 2.08s | 9.46ms | 219x |
+| ZIP -r 9 | 5.42s | 60.63ms | 89x |
+| RAR -m0 | 2.30s | 8.04ms | 286x |
+| RAR -m5 | 6.57s | 157.15ms | 41x |
+| 7z -mx=0 | 2.11s | 8.07ms | 261x |
+| 7z -mx=9 | 13.28s | 12.44s | 1.06x |
 
 ### Formats
 
