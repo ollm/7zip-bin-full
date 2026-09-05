@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- VERSIONS -->
 
+## v26.3.0 (05-09-2026)
+
+##### Changed
+
+- chore: upgrade 7zip binaries to v26.03
+```
+- Improved support for Joliet ISO images and Compound archives.
+- Some bugs and vulnerabilities were fixed.
+- CVE-2026-58052 : 7-Zip failed to preserve the Mark-of-the-Web when extracting a crafted archive.
+```
+
 ## v26.2.1 (02-07-2026)
 
 ##### Changed
