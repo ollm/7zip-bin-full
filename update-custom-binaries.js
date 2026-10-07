@@ -155,11 +155,6 @@ const errors = [];
 
 	const release = await findLatestRelease(forceVersion);
 
-	const match = release.body.match(/(\d+\.\d+)/);
-	const version = match?.[1];
-
-	const releaseVersionParts = version.split('.').map(Number);
-
 	if(publish) // Add an empty line for better readability
 		console.log('');
 
@@ -180,45 +175,7 @@ const errors = [];
 	}
 	*/
 
-	// Abort if exists a pull request with the same version
-	if(publish && !force)
-	{
-		console.log(`${styleText(['bold', 'yellowBright'], 'Checking if a pull request exists for this version...')}`);
-
-		const response = await fetch('https://api.github.com/repos/ollm/7zip-bin-full/pulls?state=open&per_page=100', {});
-		const json = await response.json();
-
-		let pullVersion = '';
-
-		for(const pull of json)
-		{
-			if(pull.user.login === 'github-actions[bot]' && /v((?:[0-9]+\.?)+)/.test(pull.title) && /7zip\s+custom\s+binaries/iu.test(pull.title))
-			{
-				pullVersion = pull.title.match(/v((?:[0-9]+\.?)+)/)[1];
-
-				break;
-			}
-		}
-
-		const pullVersionParts = pullVersion.split('.').map(Number);
-
-		if(pullVersionParts[0] === releaseVersionParts[0] && pullVersionParts[1] === releaseVersionParts[1] && !force)
-		{
-			console.log(`${styleText(['bold', 'greenBright'], 'There is already a pull request for this version:')} ${styleText(['bold', 'magentaBright'], release.tag_name)}`);
-			console.log('');
-
-			fs.writeFileSync('abort.txt', '1'); // Set if the action should be aborted
-
-			return;
-		}
-		else
-		{
-			console.log(`${styleText(['bold', 'greenBright'], 'No pull request for this version')}`);
-			console.log('');
-		}
-	}
-
-	console.log(`${styleText(['bold', 'cyanBright'], 'Updating 7z custom binaries to:')} ${styleText(['bold', 'magentaBright'], release.tag_name)}`);
+	console.log(`${styleText(['bold', 'cyanBright'], 'Updating 7z custom binaries from release:')} ${styleText(['bold', 'magentaBright'], release.tag_name)}`);
 	console.log('');
 
 	for(const binary of binaries)
@@ -295,18 +252,71 @@ const errors = [];
 		console.log('');
 	}
 
+	const customBinaryInfo = await execAsync(`${JSON.stringify(p.join(__dirname, 'linux', 'x64', '7zzc'))} i`);
+	const versionMatch = customBinaryInfo.stdout.match(/7-Zip \(z\) (\d+\.\d+)/);
+
+	if(!versionMatch)
+		throw new Error('Unable to determine the 7-Zip custom binary version');
+
+	const version = versionMatch[1];
+	const releaseVersionParts = version.split('.').map(Number);
+
+	// Abort if exists a pull request with the same version
+	if(publish && !force)
+	{
+		console.log(`${styleText(['bold', 'yellowBright'], 'Checking if a pull request exists for this version...')}`);
+
+		const response = await fetch('https://api.github.com/repos/ollm/7zip-bin-full/pulls?state=open&per_page=100', {});
+		const json = await response.json();
+
+		let pullVersion = '';
+
+		for(const pull of json)
+		{
+			if(pull.user.login === 'github-actions[bot]' && /v((?:[0-9]+\.?)+)/.test(pull.title) && /7zip\s+custom\s+binaries/iu.test(pull.title))
+			{
+				pullVersion = pull.title.match(/v((?:[0-9]+\.?)+)/)[1];
+
+				break;
+			}
+		}
+
+		const pullVersionParts = pullVersion.split('.').map(Number);
+
+		if(pullVersionParts[0] === releaseVersionParts[0] && pullVersionParts[1] === releaseVersionParts[1] && !force)
+		{
+			console.log(`${styleText(['bold', 'greenBright'], 'There is already a pull request for this version:')} ${styleText(['bold', 'magentaBright'], version)}`);
+			console.log('');
+
+			fs.writeFileSync('abort.txt', '1'); // Set if the action should be aborted
+			await fs.promises.unlink(bin7z);
+			if(bin7zDll) await fs.promises.unlink(bin7zDll);
+
+			return;
+		}
+		else
+		{
+			console.log(`${styleText(['bold', 'greenBright'], 'No pull request for this version')}`);
+			console.log('');
+		}
+	}
+
+	console.log(`${styleText(['bold', 'cyanBright'], '7-Zip custom binary version:')} ${styleText(['bold', 'magentaBright'], version)}`);
+	console.log('');
+
 	if(publish)
 	{
 		const newPackageVersion = releaseVersionParts[0]+'.'+releaseVersionParts[1]+'.'+(releaseVersionParts[2] ?? 0);
 
 		// Update README.md
 		let readme = fs.readFileSync('README.md', 'utf8');
-		readme = readme.replace(/The current version of these binaries is \`[0-9\.]+\`/, `The current version of these binaries is \`${release.tag_name}\``); // Update README.md version
+		readme = readme.replace(/The current version of these binaries is \`[0-9\.]+\`/, `The current version of these binaries is \`${version}\``); // Update README.md version
 		fs.writeFileSync('README.md', readme);
 
 		// GitHub action data
-		fs.writeFileSync('7z-version.txt', release.tag_name); // Save the version to a file
+		fs.writeFileSync('7z-version.txt', version); // Save the version to a file
 		fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
+		fs.writeFileSync('custom-release-tag.txt', release.tag_name); // Save the custom release tag to a file
 		fs.writeFileSync('abort.txt', '0'); // Set if the action should be aborted
 	}
 
