@@ -1,4 +1,4 @@
-name: Update 7zip binaries
+name: Update 7zip custom binaries
 
 on:
   workflow_dispatch:  # Allows you to run this workflow manually from the Actions tab
@@ -8,7 +8,7 @@ permissions:
   pull-requests: write # to create pull request (changesets/action)
 
 jobs:
-  update-binaries:
+  update-custom-binaries:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -34,7 +34,7 @@ jobs:
         run: |
           pnpm install
 
-      - name: Run update custom binaries script
+      - name: Run update 7zip custom binaries script
         id: update
         run: node update-custom-binaries.js --publish
 

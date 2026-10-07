@@ -36,7 +36,7 @@ jobs:
         run: |
           pnpm install
 
-      - name: Run update binaries script
+      - name: Run update 7zip binaries script
         id: update
         run: node update-binaries.js --publish
 
