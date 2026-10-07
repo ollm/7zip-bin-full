@@ -353,8 +353,8 @@ const errors = [];
 		fs.writeFileSync('README.md', readme);
 
 		// GitHub action data
-		fs.writeFileSync('7z-version.txt', release.tag_name); // Save the version to a file
-		fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
+		fs.writeFileSync('7z-version.txt', `v${version}`); // Save the version to a file
+		// fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
 		fs.writeFileSync('abort.txt', '0'); // Set if the action should be aborted
 	}
 
