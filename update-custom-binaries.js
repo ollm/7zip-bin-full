@@ -2,8 +2,9 @@ const fs = require('node:fs');
 const p = require('node:path');
 const util = require('node:util');
 const n7z = require('node-7z');
-const {exec} = require('child_process');
+const {exec, execFile} = require('child_process');
 const execAsync = util.promisify(exec);
+const execFileAsync = util.promisify(execFile);
 const styleText = require('node:util').styleText;
 
 let dll = false;
@@ -252,7 +253,7 @@ const errors = [];
 		console.log('');
 	}
 
-	const customBinaryInfo = await execAsync(`${JSON.stringify(p.join(__dirname, 'linux', 'x64', '7zzc'))} i`);
+	const customBinaryInfo = await execFileAsync(p.join(__dirname, 'linux', 'x64', '7zzc'), ['i']);
 	const versionMatch = customBinaryInfo.stdout.match(/7-Zip \(z\) (\d+\.\d+)/);
 
 	if(!versionMatch)
