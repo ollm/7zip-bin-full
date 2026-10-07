@@ -134,11 +134,11 @@ const binaries = [
 		extract: {
 			'7zz': '7zzc',
 			'7zzs': '7zzsc',
+		},
 		permissions: {
 			'7zzc': '755',
 			'7zzsc': '755',
 		},
-	},
 	},
 	// Linux arm64
 	{
