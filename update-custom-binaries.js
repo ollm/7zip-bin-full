@@ -349,11 +349,11 @@ const errors = [];
 
 		// Update README.md
 		let readme = fs.readFileSync('README.md', 'utf8');
-		readme = readme.replace(/The current version of these binaries is \`[0-9\.]+\`/, `The current version of these binaries is \`${release.tag_name}\``); // Update README.md version
+		readme = readme.replace(/The current version of these binaries is \`[0-9\.]+\`/, `The current version of these binaries is \`${version}\``); // Update README.md version
 		fs.writeFileSync('README.md', readme);
 
 		// GitHub action data
-		fs.writeFileSync('7z-version.txt', `v${version}`); // Save the version to a file
+		fs.writeFileSync('7z-version.txt', version); // Save the version to a file
 		// fs.writeFileSync('package-version.txt', newPackageVersion); // Save the new package version to a file, in format 24.9.0
 		fs.writeFileSync('abort.txt', '0'); // Set if the action should be aborted
 	}
