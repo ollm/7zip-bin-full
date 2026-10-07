@@ -52,7 +52,7 @@ const binaries = [
 	// Windows ia32 (x86)
 	{
 		name: 'Windows ia32 (x86)',
-		regex: /7zip-[0-9]+\-[0-9]+-windows-ia32\.zip/,
+		regex: /7zip-[0-9]+\-[0-9]+-windows-x86\.zip/,
 		folder: 'win/ia32/7zc',
 		file: '7z-win-ia32.zip',
 		extract: {
@@ -149,11 +149,11 @@ const binaries = [
 		extract: {
 			'7zz': '7zzc',
 			'7zzs': '7zzsc',
+		},
 		permissions: {
 			'7zzc': '755',
 			'7zzsc': '755',
 		},
-	},
 	},
 	// Linux arm
 	{
