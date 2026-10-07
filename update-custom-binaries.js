@@ -155,7 +155,7 @@ const errors = [];
 
 	const release = await findLatestRelease(forceVersion);
 
-	const match = release.body.match(/^(\d+\.\d+)$/m);
+	const match = release.body.match(/(\d+\.\d+)/);
 	const version = match?.[1];
 
 	const releaseVersionParts = version.split('.').map(Number);
