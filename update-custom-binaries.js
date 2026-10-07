@@ -34,6 +34,7 @@ const publish = process.argv.includes('--publish');
 const force = process.argv.includes('--force');
 
 const packageJson = require('./package.json');
+const { permission } = require('node:process');
 const versionParts = packageJson.version.split('.').map(Number);
 
 const binaries = [
@@ -42,7 +43,7 @@ const binaries = [
 		name: 'Windows x64',
 		regex: /7zip-[0-9]+\-[0-9]+-windows-x64\.zip/,
 		folder: 'win/x64/7zc',
-		file: '7z-win-x64.tar.xz',
+		file: '7z-win-x64.zip',
 		extract: {
 			'7z.exe': '7z.exe',
 			'7z.dll': '7z.dll',
@@ -53,7 +54,7 @@ const binaries = [
 		name: 'Windows ia32 (x86)',
 		regex: /7zip-[0-9]+\-[0-9]+-windows-ia32\.zip/,
 		folder: 'win/ia32/7zc',
-		file: '7z-win-ia32.tar.xz',
+		file: '7z-win-ia32.zip',
 		extract: {
 			'7z.exe': '7z.exe',
 			'7z.dll': '7z.dll',
@@ -64,7 +65,7 @@ const binaries = [
 		name: 'Windows arm64',
 		regex: /7zip-[0-9]+\-[0-9]+-windows-arm64\.zip/,
 		folder: 'win/arm64/7zc',
-		file: '7z-win-arm64.tar.xz',
+		file: '7z-win-arm64.zip',
 		extract: {
 			'7z.exe': '7z.exe',
 			'7z.dll': '7z.dll',
@@ -76,7 +77,7 @@ const binaries = [
 		name: 'Windows arm',
 		regex: /7zip-[0-9]+\-[0-9]+-windows-arm\.zip/,
 		folder: 'win/arm/7zc',
-		file: '7z-win-arm.exe',
+		file: '7z-win-arm.zip',
 		extract: {
 			'7z.exe': '7z.exe',
 			'7z.dll': '7z.dll',
@@ -86,65 +87,87 @@ const binaries = [
 	// Mac x64
 	{
 		name: 'Mac x64',
-		regex: /7zip-[0-9]+\-[0-9]+-mac\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-macos-x64\.tar\.gz/,
 		folder: 'mac/x64',
-		file: '7z-mac.tar.xz',
+		file: '7z-mac.tar.gz',
 		extract: {
 			'7zz': '7zzc',
+		},
+		permissions: {
+			'7zzc': '755',
 		},
 	},
 	// Mac arm64 (Same file as above)
 	{
 		name: 'Mac arm64',
-		regex: /7zip-[0-9]+\-[0-9]+-mac\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-macos-arm64\.tar\.gz/,
 		folder: 'mac/arm64',
-		file: '7z-mac.tar.xz',
+		file: '7z-mac.tar.gz',
 		extract: {
 			'7zz': '7zzc',
+		},
+		permissions: {
+			'7zzc': '755',
 		},
 	},
 	// Linux x64
 	{
 		name: 'Linux x64',
-		regex: /7zip-[0-9]+\-[0-9]+-linux-x64\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-linux-x64\.tar\.gz/,
 		folder: 'linux/x64',
-		file: '7z-linux-x64.tar.xz',
+		file: '7z-linux-x64.tar.gz',
 		extract: {
 			'7zz': '7zzc',
 			'7zzs': '7zzsc',
+		},
+		permissions: {
+			'7zzc': '755',
+			'7zzsc': '755',
 		},
 	},
 	// Linux ia32 (x86)
 	{
 		name: 'Linux ia32 (x86)',
-		regex: /7zip-[0-9]+\-[0-9]+-linux-x86\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-linux-x86\.tar\.gz/,
 		folder: 'linux/ia32',
-		file: '7z-linux-ia32.tar.xz',
+		file: '7z-linux-ia32.tar.gz',
 		extract: {
 			'7zz': '7zzc',
 			'7zzs': '7zzsc',
+		permissions: {
+			'7zzc': '755',
+			'7zzsc': '755',
 		},
+	},
 	},
 	// Linux arm64
 	{
 		name: 'Linux arm64',
-		regex: /7zip-[0-9]+\-[0-9]+-linux-arm64\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-linux-arm64\.tar\.gz/,
 		folder: 'linux/arm64',
-		file: '7z-linux-arm64.tar.xz',
+		file: '7z-linux-arm64.tar.gz',
 		extract: {
 			'7zz': '7zzc',
 			'7zzs': '7zzsc',
+		permissions: {
+			'7zzc': '755',
+			'7zzsc': '755',
 		},
+	},
 	},
 	// Linux arm
 	{
 		name: 'Linux arm',
-		regex: /7zip-[0-9]+\-[0-9]+-linux-arm\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-linux-arm\.tar\.gz/,
 		folder: 'linux/arm',
-		file: '7z-linux-arm.tar.xz',
+		file: '7z-linux-arm.tar.gz',
 		extract: {
 			'7zz': '7zzc',
 			'7zzs': '7zzsc',
+		},
+		permissions: {
+			'7zzc': '755',
+			'7zzsc': '755',
 		},
 	},
 ];
@@ -261,6 +284,26 @@ const errors = [];
 				}
 
 				await extract(downloadFile, files, folder); // Extract the selected files
+				
+				// Set permissions for the extracted files
+				for(const file in binary.permissions)
+				{
+					const path = p.join(folder, file);
+
+					if(fs.existsSync(path))
+					{
+						const permissions = binary.permissions[file];
+						setPermissions(path, permissions);
+					
+						if(!hasPermissions(path, permissions))
+						{
+							const error = `${styleText(['bold', 'redBright'], 'Failed to set permissions for:')} ${path}`;
+							errors.push(error);
+							console.log(error);
+						}
+					}
+				}
+
 				await fs.promises.unlink(downloadFile); // Delete downloaded file after extracting binaries from it
 
 				for(const file in binary.extract)
@@ -413,4 +456,12 @@ async function _extract(zip, files, destination)
 		});
 
 	});
+}
+
+function setPermissions(file, permissions) {
+    fs.chmodSync(file, permissions);
+}
+
+function hasPermissions(file, permissions) {
+    return (fs.statSync(file).mode & 0o777) === permissions;
 }

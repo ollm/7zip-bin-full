@@ -105,6 +105,9 @@ const binaries = [
 			'License.txt': 'License.txt',
 			'readme.txt': 'readme.txt',
 		},
+		permissions: {
+			'7zz': '755',
+		},
 	},
 	// Mac arm64 (Same file as above)
 	{
@@ -117,6 +120,9 @@ const binaries = [
 			'History.txt': 'History.txt',
 			'License.txt': 'License.txt',
 			'readme.txt': 'readme.txt',
+		},
+		permissions: {
+			'7zz': '755',
 		},
 	},
 	// Linux x64
@@ -132,6 +138,10 @@ const binaries = [
 			'License.txt': 'License.txt',
 			'readme.txt': 'readme.txt',
 		},
+		permissions: {
+			'7zz': '755',
+			'7zzs': '755',
+		},
 	},
 	// Linux ia32 (x86)
 	{
@@ -145,6 +155,10 @@ const binaries = [
 			'History.txt': 'History.txt',
 			'License.txt': 'License.txt',
 			'readme.txt': 'readme.txt',
+		},
+		permissions: {
+			'7zz': '755',
+			'7zzs': '755',
 		},
 	},
 	// Linux arm64
@@ -160,6 +174,10 @@ const binaries = [
 			'License.txt': 'License.txt',
 			'readme.txt': 'readme.txt',
 		},
+		permissions: {
+			'7zz': '755',
+			'7zzs': '755',
+		},
 	},
 	// Linux arm
 	{
@@ -173,6 +191,10 @@ const binaries = [
 			'History.txt': 'History.txt',
 			'License.txt': 'License.txt',
 			'readme.txt': 'readme.txt',
+		},
+		permissions: {
+			'7zz': '755',
+			'7zzs': '755',
 		},
 	},
 ];
@@ -284,6 +306,25 @@ const errors = [];
 
 				await extract(downloadFile, files, folder); // Extract the selected files
 				await fs.promises.unlink(downloadFile); // Delete downloaded file after extracting binaries from it
+
+				// Set permissions for the extracted files
+				for(const file in binary.permissions)
+				{
+					const path = p.join(folder, file);
+
+					if(fs.existsSync(path))
+					{
+						const permissions = binary.permissions[file];
+						setPermissions(path, permissions);
+					
+						if(!hasPermissions(path, permissions))
+						{
+							const error = `${styleText(['bold', 'redBright'], 'Failed to set permissions for:')} ${path}`;
+							errors.push(error);
+							console.log(error);
+						}
+					}
+				}
 
 				for(const file in binary.extract)
 				{
@@ -454,4 +495,12 @@ async function _extract(zip, files, destination)
 		});
 
 	});
+}
+
+function setPermissions(file, permissions) {
+	fs.chmodSync(file, permissions);
+}
+
+function hasPermissions(file, permissions) {
+	return (fs.statSync(file).mode & 0o777) === permissions;
 }
