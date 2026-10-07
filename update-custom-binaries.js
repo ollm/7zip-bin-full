@@ -40,139 +40,111 @@ const binaries = [
 	// Windows x64
 	{
 		name: 'Windows x64',
-		regex: /7z[0-9]+-x64\.exe/,
-		folder: 'win/x64',
-		file: '7z-win-x64.exe',
+		regex: /7zip-[0-9]+\-[0-9]+-windows-x64\.zip/,
+		folder: 'win/x64/7zc',
+		file: '7z-win-x64.tar.xz',
 		extract: {
 			'7z.exe': '7z.exe',
 			'7z.dll': '7z.dll',
-			'History.txt': 'History.txt',
-			'License.txt': 'License.txt',
-			'readme.txt': 'readme.txt',
 		},
 	},
 	// Windows ia32 (x86)
 	{
 		name: 'Windows ia32 (x86)',
-		regex: /7z[0-9]+\.exe/,
-		folder: 'win/ia32',
-		file: '7z-win-ia32.exe',
+		regex: /7zip-[0-9]+\-[0-9]+-windows-ia32\.zip/,
+		folder: 'win/ia32/7zc',
+		file: '7z-win-ia32.tar.xz',
 		extract: {
 			'7z.exe': '7z.exe',
 			'7z.dll': '7z.dll',
-			'History.txt': 'History.txt',
-			'License.txt': 'License.txt',
-			'readme.txt': 'readme.txt',
 		},
 	},
 	// Windows arm64
 	{
 		name: 'Windows arm64',
-		regex: /7z[0-9]+-arm64\.exe/,
-		folder: 'win/arm64',
-		file: '7z-win-arm64.exe',
+		regex: /7zip-[0-9]+\-[0-9]+-windows-arm64\.zip/,
+		folder: 'win/arm64/7zc',
+		file: '7z-win-arm64.tar.xz',
 		extract: {
 			'7z.exe': '7z.exe',
 			'7z.dll': '7z.dll',
-			'History.txt': 'History.txt',
-			'License.txt': 'License.txt',
-			'readme.txt': 'readme.txt',
 		},
 	},
 	// Windows arm
+	/*
 	{
 		name: 'Windows arm',
-		regex: /7z[0-9]+-arm\.exe/,
-		folder: 'win/arm',
+		regex: /7zip-[0-9]+\-[0-9]+-windows-arm\.zip/,
+		folder: 'win/arm/7zc',
 		file: '7z-win-arm.exe',
 		extract: {
 			'7z.exe': '7z.exe',
 			'7z.dll': '7z.dll',
-			'History.txt': 'History.txt',
-			'License.txt': 'License.txt',
-			'readme.txt': 'readme.txt',
 		},
 	},
+	*/
 	// Mac x64
 	{
 		name: 'Mac x64',
-		regex: /7z[0-9]+-mac\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-mac\.tar\.xz/,
 		folder: 'mac/x64',
 		file: '7z-mac.tar.xz',
 		extract: {
-			'7zz': '7zz',
-			'History.txt': 'History.txt',
-			'License.txt': 'License.txt',
-			'readme.txt': 'readme.txt',
+			'7zz': '7zzc',
 		},
 	},
 	// Mac arm64 (Same file as above)
 	{
 		name: 'Mac arm64',
-		regex: /7z[0-9]+-mac\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-mac\.tar\.xz/,
 		folder: 'mac/arm64',
 		file: '7z-mac.tar.xz',
 		extract: {
-			'7zz': '7zz',
-			'History.txt': 'History.txt',
-			'License.txt': 'License.txt',
-			'readme.txt': 'readme.txt',
+			'7zz': '7zzc',
 		},
 	},
 	// Linux x64
 	{
 		name: 'Linux x64',
-		regex: /7z[0-9]+-linux-x64\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-linux-x64\.tar\.xz/,
 		folder: 'linux/x64',
 		file: '7z-linux-x64.tar.xz',
 		extract: {
-			'7zz': '7zz',
-			'7zzs': '7zzs',
-			'History.txt': 'History.txt',
-			'License.txt': 'License.txt',
-			'readme.txt': 'readme.txt',
+			'7zz': '7zzc',
+			'7zzs': '7zzsc',
 		},
 	},
 	// Linux ia32 (x86)
 	{
 		name: 'Linux ia32 (x86)',
-		regex: /7z[0-9]+-linux-x86\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-linux-x86\.tar\.xz/,
 		folder: 'linux/ia32',
 		file: '7z-linux-ia32.tar.xz',
 		extract: {
-			'7zz': '7zz',
-			'7zzs': '7zzs',
-			'History.txt': 'History.txt',
-			'License.txt': 'License.txt',
-			'readme.txt': 'readme.txt',
+			'7zz': '7zzc',
+			'7zzs': '7zzsc',
 		},
 	},
 	// Linux arm64
 	{
 		name: 'Linux arm64',
-		regex: /7z[0-9]+-linux-arm64\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-linux-arm64\.tar\.xz/,
 		folder: 'linux/arm64',
 		file: '7z-linux-arm64.tar.xz',
 		extract: {
-			'7zz': '7zz',
-			'7zzs': '7zzs',
-			'History.txt': 'History.txt',
-			'License.txt': 'License.txt',
-			'readme.txt': 'readme.txt',
+			'7zz': '7zzc',
+			'7zzs': '7zzsc',
 		},
 	},
 	// Linux arm
 	{
 		name: 'Linux arm',
-		regex: /7z[0-9]+-linux-arm\.tar\.xz/,
+		regex: /7zip-[0-9]+\-[0-9]+-linux-arm\.tar\.xz/,
 		folder: 'linux/arm',
 		file: '7z-linux-arm.tar.xz',
 		extract: {
-			'7zz': '7zz',
-			'7zzs': '7zzs',
-			'History.txt': 'History.txt',
-			'License.txt': 'License.txt',
-			'readme.txt': 'readme.txt',
+			'7zz': '7zzc',
+			'7zzs': '7zzsc',
 		},
 	},
 ];
@@ -182,16 +154,21 @@ const errors = [];
 (async function() {
 
 	const release = await findLatestRelease(forceVersion);
-	const releaseVersionParts = release.tag_name.split('.').map(Number);
+
+	const match = release.body.match(/^(\d+\.\d+)$/m);
+	const version = match?.[1];
+
+	const releaseVersionParts = version.split('.').map(Number);
 
 	if(publish) // Add an empty line for better readability
 		console.log('');
 
+	/*
 	// Abort if the release version is the same as the current version
 	if(versionParts[0] === releaseVersionParts[0] && versionParts[1] === releaseVersionParts[1] && !force)
 	{
 		console.log(`${styleText(['bold', 'greenBright'], 'No updates available')}`);
-		console.log(`${styleText(['bold', 'cyanBright'], 'Current 7z binaries version:')} ${styleText(['bold', 'magentaBright'], release.tag_name)}`);
+		console.log(`${styleText(['bold', 'cyanBright'], 'Current 7z custom binaries version:')} ${styleText(['bold', 'magentaBright'], release.tag_name)}`);
 
 		if(publish)
 		{
@@ -201,6 +178,7 @@ const errors = [];
 
 		return;
 	}
+	*/
 
 	// Abort if exists a pull request with the same version
 	if(publish && !force)
@@ -214,7 +192,7 @@ const errors = [];
 
 		for(const pull of json)
 		{
-			if(pull.user.login === 'github-actions[bot]' && /v((?:[0-9]+\.?)+)/.test(pull.title) && /7zip\s+binaries/iu.test(pull.title))
+			if(pull.user.login === 'github-actions[bot]' && /v((?:[0-9]+\.?)+)/.test(pull.title) && /7zip\s+custom\s+binaries/iu.test(pull.title))
 			{
 				pullVersion = pull.title.match(/v((?:[0-9]+\.?)+)/)[1];
 
@@ -240,7 +218,7 @@ const errors = [];
 		}
 	}
 
-	console.log(`${styleText(['bold', 'cyanBright'], 'Updating 7z binaries to:')} ${styleText(['bold', 'magentaBright'], release.tag_name)}`);
+	console.log(`${styleText(['bold', 'cyanBright'], 'Updating 7z custom binaries to:')} ${styleText(['bold', 'magentaBright'], release.tag_name)}`);
 	console.log('');
 
 	for(const binary of binaries)
@@ -321,28 +299,9 @@ const errors = [];
 	{
 		const newPackageVersion = releaseVersionParts[0]+'.'+releaseVersionParts[1]+'.'+(releaseVersionParts[2] ?? 0);
 
-		const date = new Date();
-
-		const day = String(date.getDate()).padStart(2, '0');
-		const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-		const year = date.getFullYear();
-
-		const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
-		const history = fs.readFileSync(p.join('win', 'x64', 'History.txt'), 'utf8');
-
-		const changelog7zip = history.match(/[0-9-]+(?:\r\n|\r|\n)-+(?:\r\n|\r|\n)([\s\S]*?)(?:\r\n|\r|\n){3}/)[1];
-
-		fs.writeFileSync('CHANGELOG.md', (new RegExp(newPackageVersion)).test(changelog) ? changelog : changelog.replace(/\<!-- VERSIONS --\>/, `<!-- VERSIONS -->\n\n## v${newPackageVersion} (${day}-${month}-${year})\n\n##### Changed\n\n- chore: upgrade 7zip binaries to v${release.tag_name}\n\`\`\`\n${changelog7zip}\n\`\`\``)); // Update CHANGELOG.md version and add 7zip changelog
-
 		// Update README.md
 		let readme = fs.readFileSync('README.md', 'utf8');
-		readme = readme.replace(/Current version \`[0-9\.]+\`/, `Current version \`${release.tag_name}\``); // Update README.md version
-
-		// Update the Flags with the new 7z version in README.md
-		const formats = await execAsync(path7z+' i');
-		const flags = await execAsync(path7z);
-
-		readme = readme.replace(/### Formats[\s\S]+/, `### Formats\n\n\`\`\`none${formats.stdout}\`\`\`\n\n### Flags\n\n\`\`\`none${flags.stdout}\`\`\``);
+		readme = readme.replace(/The current version of these binaries is \`[0-9\.]+\`/, `The current version of these binaries is \`${release.tag_name}\``); // Update README.md version
 		fs.writeFileSync('README.md', readme);
 
 		// GitHub action data
@@ -357,7 +316,7 @@ const errors = [];
 	if(errors.length)
 		throw new Error(`${styleText(['bold', 'redBright'], 'Errors during download or extraction:')} \n${errors.join('\n')}`);
 	else
-		console.log(`${styleText(['bold', 'greenBright'], 'All binaries updated successfully!')}`);
+		console.log(`${styleText(['bold', 'greenBright'], 'All custom binaries updated successfully!')}`);
 
 	if(publish) console.log('');
 
@@ -365,7 +324,7 @@ const errors = [];
 
 async function findLatestRelease(force = false)
 {
-	const response = await fetch('https://api.github.com/repos/ip7z/7zip/releases', {});
+	const response = await fetch('https://api.github.com/repos/ollm/7zip/releases', {});
 	const json = await response.json();
 
 	if(!response.ok)
