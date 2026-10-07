@@ -283,7 +283,10 @@ const errors = [];
 						fs.promises.unlink(path);
 				}
 
-				await extract(downloadFile, files, folder); // Extract the selected files
+				// Extract to a temporary folder so the original binaries (7zz, 7zzs) are not overwritten
+				const tmpFolder = p.join(folder, '.extract');
+				await fs.promises.mkdir(tmpFolder, {recursive: true});
+				await extract(downloadFile, files, tmpFolder); // Extract the selected files
 				
 				// Set permissions for the extracted files
 				for(const file in binary.permissions)
@@ -308,7 +311,7 @@ const errors = [];
 
 				for(const file in binary.extract)
 				{
-					const extracted = p.join(folder, file);
+					const extracted = p.join(tmpFolder, file);
 					const path = p.join(folder, binary.extract[file]);
 
 					if(fs.existsSync(extracted))
@@ -324,6 +327,8 @@ const errors = [];
 						console.log(error);
 					}
 				}
+
+				await fs.promises.rm(tmpFolder, {recursive: true, force: true});
 			}
 
 		}
@@ -427,12 +432,50 @@ async function extract(zip, files, destination)
 		await _extract(zip, [file], destination); // Extract the tar file
 		zip = p.join(destination, file);
 
-		await _extract(zip, files, destination);
+		await extractSelected(zip, files, destination);
 		await fs.promises.unlink(zip); // Delete the tar file
 	}
 	else
 	{
-		await _extract(zip, files, destination);
+		await extractSelected(zip, files, destination);
+	}
+}
+
+async function extractSelected(zip, files, destination)
+{
+	{
+		// Archives may wrap the binaries in a top-level folder
+		const entries = await new Promise(function(resolve, reject) {
+
+			const list = [];
+
+			n7z.list(zip, {$bin: bin7z, charset: 'UTF-8', listFileCharset: 'UTF-8'})
+			.on('data', (data) => data.file && list.push(data.file))
+			.on('end', () => resolve(list))
+			.on('error', reject);
+
+		});
+
+		const selected = [];
+
+		for(const file of files)
+		{
+			const entry = entries.find((entry) => entry === file || entry.endsWith('/' + file));
+			selected.push(entry || file);
+		}
+
+		await _extract(zip, selected, destination);
+
+		for(let i = 0; i < files.length; i++)
+		{
+			if(selected[i] === files[i]) continue;
+
+			const from = p.join(destination, selected[i]);
+			if(fs.existsSync(from)) fs.renameSync(from, p.join(destination, files[i]));
+		}
+
+		for(const dir of new Set(selected.filter((file) => file.includes('/')).map((file) => file.split('/')[0])))
+			await fs.promises.rm(p.join(destination, dir), {recursive: true, force: true});
 	}
 }
 
