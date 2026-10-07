@@ -58,13 +58,6 @@ jobs:
           echo "version=$(cat package-version.txt)" >> $GITHUB_OUTPUT
           rm package-version.txt
 
-      - name: Get custom release tag
-        if: steps.abort.outputs.abort != '1'
-        id: releaseTag
-        run: |
-          echo "tag=$(cat custom-release-tag.txt)" >> $GITHUB_OUTPUT
-          rm custom-release-tag.txt
-
       - name: Bump version with pnpm
         if: steps.abort.outputs.abort != '1'
         run: pnpm version ${STEPS_PACKAGEVERSION_OUTPUTS_VERSION} --no-git-tag-version
@@ -76,8 +69,8 @@ jobs:
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore: upgrade 7zip custom binaries to v${{ steps.version.outputs.version }} (${{ steps.releaseTag.outputs.tag }})"
-          title: "chore: upgrade 7zip custom binaries to v${{ steps.version.outputs.version }} (${{ steps.releaseTag.outputs.tag }})"
+          commit-message: "chore: upgrade 7zip custom binaries to v${{ steps.version.outputs.version }}"
+          title: "chore: upgrade 7zip custom binaries to v${{ steps.version.outputs.version }}"
           body: |
             This pull request was automatically created by a GitHub Action.
           branch: update-branch
