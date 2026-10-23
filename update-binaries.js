@@ -106,7 +106,7 @@ const binaries = [
 			'readme.txt': 'readme.txt',
 		},
 		permissions: {
-			'7zz': '755',
+			'7zz': 0o755,
 		},
 	},
 	// Mac arm64 (Same file as above)
@@ -122,7 +122,7 @@ const binaries = [
 			'readme.txt': 'readme.txt',
 		},
 		permissions: {
-			'7zz': '755',
+			'7zz': 0o755,
 		},
 	},
 	// Linux x64
@@ -139,8 +139,8 @@ const binaries = [
 			'readme.txt': 'readme.txt',
 		},
 		permissions: {
-			'7zz': '755',
-			'7zzs': '755',
+			'7zz': 0o755,
+			'7zzs': 0o755,
 		},
 	},
 	// Linux ia32 (x86)
@@ -157,8 +157,8 @@ const binaries = [
 			'readme.txt': 'readme.txt',
 		},
 		permissions: {
-			'7zz': '755',
-			'7zzs': '755',
+			'7zz': 0o755,
+			'7zzs': 0o755,
 		},
 	},
 	// Linux arm64
@@ -175,8 +175,8 @@ const binaries = [
 			'readme.txt': 'readme.txt',
 		},
 		permissions: {
-			'7zz': '755',
-			'7zzs': '755',
+			'7zz': 0o755,
+			'7zzs': 0o755,
 		},
 	},
 	// Linux arm
@@ -193,8 +193,8 @@ const binaries = [
 			'readme.txt': 'readme.txt',
 		},
 		permissions: {
-			'7zz': '755',
-			'7zzs': '755',
+			'7zz': 0o755,
+			'7zzs': 0o755,
 		},
 	},
 ];

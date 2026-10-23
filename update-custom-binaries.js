@@ -94,7 +94,7 @@ const binaries = [
 			'7zz': '7zzc',
 		},
 		permissions: {
-			'7zzc': '755',
+			'7zzc': 0o755,
 		},
 	},
 	// Mac arm64 (Same file as above)
@@ -107,7 +107,7 @@ const binaries = [
 			'7zz': '7zzc',
 		},
 		permissions: {
-			'7zzc': '755',
+			'7zzc': 0o755,
 		},
 	},
 	// Linux x64
@@ -121,8 +121,8 @@ const binaries = [
 			'7zzs': '7zzsc',
 		},
 		permissions: {
-			'7zzc': '755',
-			'7zzsc': '755',
+			'7zzc': 0o755,
+			'7zzsc': 0o755,
 		},
 	},
 	// Linux ia32 (x86)
@@ -136,8 +136,8 @@ const binaries = [
 			'7zzs': '7zzsc',
 		},
 		permissions: {
-			'7zzc': '755',
-			'7zzsc': '755',
+			'7zzc': 0o755,
+			'7zzsc': 0o755,
 		},
 	},
 	// Linux arm64
@@ -151,8 +151,8 @@ const binaries = [
 			'7zzs': '7zzsc',
 		},
 		permissions: {
-			'7zzc': '755',
-			'7zzsc': '755',
+			'7zzc': 0o755,
+			'7zzsc': 0o755,
 		},
 	},
 	// Linux arm
@@ -166,8 +166,8 @@ const binaries = [
 			'7zzs': '7zzsc',
 		},
 		permissions: {
-			'7zzc': '755',
-			'7zzsc': '755',
+			'7zzc': 0o755,
+			'7zzsc': 0o755,
 		},
 	},
 ];
