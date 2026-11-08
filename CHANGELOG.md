@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- VERSIONS -->
 
+## v26.6.0 (08-11-2026)
+
+##### Changed
+
+- chore: upgrade 7zip binaries to v26.06
+```
+- Improved support for split files created by "split" utility in Linux.
+- Some bugs and vulnerabilities were fixed.
+```
+
 ## v26.4.0 (07-10-2026)
 
 ##### Changed
