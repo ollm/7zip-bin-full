@@ -1,5 +1,5 @@
 # 7-Zip precompiled binaries
-### Current version `26.05`
+### Current version `26.06`
 Downloaded from https://github.com/ip7z/7zip/releases
 
 > [!NOTE]
@@ -101,7 +101,7 @@ All same binaries are available except for Windows arm.
 ### Formats
 
 ```none
-7-Zip (z) 26.05 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-10-21
+7-Zip (z) 26.06 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-11-06
  64-bit locale=C.UTF-8 Threads:4 OPEN_MAX:65536, ASM
 
 
@@ -113,7 +113,7 @@ Formats:
     ......................  Arj      arj           ` EA
     K.....O.....X.........  Base64   b64           
     ......O...............  COFF     obj           
-    ...F..................  Cab      cab           M S C F 00 00 00 00
+    ......................  Cab      cab           M S C F 00 00 00 00
     ......................  Chm      chm chi chq chw I T S F 03 00 00 00 ` 00 00 00
     ......................  Compound msi msp msm doc xls ppt aaf D0 CF 11 E0 A1 B1 1A E1
     ....M.................  Cpio     cpio          0 7 0 7 0  ||  C7 q  ||  q C7
@@ -211,7 +211,7 @@ Hashers:
 ### Flags
 
 ```none
-7-Zip (z) 26.05 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-10-21
+7-Zip (z) 26.06 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-11-06
  64-bit locale=C.UTF-8 Threads:4 OPEN_MAX:65536, ASM
 
 Usage: 7zz <command> [<switches>...] <archive_name> [<file_names>...] [@listfile]
